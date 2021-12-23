@@ -8,11 +8,11 @@ public class Board
 
     private const char Empty = ' ';
 
-    char[,] arr = new char[Width, Height];
+    char[,] arr = new char[Height, Width];
 
     public Board()
     {
-        for (int row=0; row < Width; ++row)
+        for (int row=0; row < Height; ++row)
         {
             for (int col=0; col < Width; ++col)
             {
@@ -34,7 +34,7 @@ public class Board
 
     public int getTopRow(int col)
     {
-        for (int row=0; row < Width; ++row)
+        for (int row=0; row < Height; ++row)
         {
             if (arr[row, col] == Empty)
             {
@@ -140,7 +140,8 @@ public class Board
         {
             for (int col=0; col < Width; ++col)
             {
-                str += "|" + arr[row, col];
+                // double space for Unity Console
+                str += arr[row, col] == Empty ? "|  " : "|" + arr[row, col];
             }
             str += "|\n";
         }
