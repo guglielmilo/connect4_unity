@@ -43,9 +43,10 @@ public class State
     public void addPosition(int col)
     {
         board[board.getTopRow(col), col] = playerTurn;
-        if (!board.isDone(playerTurn))
+        bool isDone = board.isDone(playerTurn);
+        playerTurn = getOpponent(playerTurn);
+        if (!isDone)
         {
-            playerTurn = getOpponent(playerTurn);
             if (board.isFull())
             {
                 done = true;
