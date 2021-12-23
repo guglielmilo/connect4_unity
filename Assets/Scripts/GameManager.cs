@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject player1; // coins
-    public GameObject player2;
+    public GameObject coinPlayer1; // coins
+    public GameObject coinPlayer2;
 
     public GameObject[] spawnCoins;
+
+    private State state = new State('1');
 
     private int nextPlayer;
 
@@ -15,7 +17,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Debug.Log("Start");
-        nextPlayer = 1;
+        Debug.Log("state:" + state);
     }
 
     // Update is called once per frame
@@ -26,19 +28,34 @@ public class GameManager : MonoBehaviour
 
     public void SelectCol(int col)
     {
-        Debug.Log("SelectCol:" + col + " nextPlayer:" + nextPlayer);
-        Instantiate(getPlayer(), spawnCoins[col].transform.position, Quaternion.Euler(-90, 0, 0));
+        Debug.Log("playerTurn:" + state.PlayerTurn + " col:" + col);
+        if (state.isColValid(col))
+        {
+            state.addPosition(col);
+            Instantiate(getCoinPlayer(), spawnCoins[col].transform.position, Quaternion.Euler(-90, 0, 0));
+
+            Debug.Log("state:" + state);
+
+            if (state.Done)
+            {
+                Debug.Log("board done, winner:" + Player.playerToString(state.PlayerWin));
+            }
+        }
+        else
+        {
+            Debug.LogWarning("col:" + col + " is not valid");
+        }
     }
 
-    private GameObject getPlayer()
+    private GameObject getCoinPlayer()
     {
         if (nextPlayer == 1)
         {
             nextPlayer = 2;
-            return player1;
+            return coinPlayer1;
         }
 
         nextPlayer = 1;
-        return player2;
+        return coinPlayer2;
     }
 }

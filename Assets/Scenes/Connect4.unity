@@ -545,7 +545,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294773581}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -5, z: 0.5}
   m_LocalScale: {x: 0.94, y: 0.10000001, z: 0.94}
   m_Children: []
   m_Father: {fileID: 889438910}
@@ -1653,7 +1653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939640932}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: -5, z: 0.5}
   m_LocalScale: {x: 0.94, y: 0.10000001, z: 0.94}
   m_Children: []
   m_Father: {fileID: 889438910}
@@ -2507,8 +2507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e320dd492d9583d4d8acbb7eec358fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 294773581}
-  player2: {fileID: 939640932}
+  coinPlayer1: {fileID: 294773581}
+  coinPlayer2: {fileID: 939640932}
   spawnCoins:
   - {fileID: 84495507}
   - {fileID: 1499629854}

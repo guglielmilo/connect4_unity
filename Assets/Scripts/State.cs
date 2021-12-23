@@ -8,11 +8,26 @@ public class State
     public  char  playerWin = Player.P0;
     public  char  playerTurn;
 
-    private Board board;
+    private Board board = new Board();
 
     public State(char firstTurn)
     {
         playerTurn = firstTurn;
+    }
+
+    public bool Done
+    {
+        get => done;
+    }
+
+    public char PlayerWin
+    {
+        get => playerWin;
+    }
+
+    public char PlayerTurn
+    {
+        get => playerTurn;
     }
 
     public char getLastPayer()
@@ -41,6 +56,12 @@ public class State
             done = true;
             playerWin = playerTurn;
         }
+    }
+
+    public override string ToString()
+    {
+        string str = "TURN: " + Player.playerToString(playerTurn) + "\n" + board;
+        return str;
     }
 
 }
