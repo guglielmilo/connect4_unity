@@ -262,6 +262,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: 5
+  spawnCoin: {fileID: 2091844095}
+  coinPlayer1: {fileID: 294773581}
+  coinPlayer2: {fileID: 939640932}
   gameManager: {fileID: 1880090344}
 --- !u!1 &222683064
 GameObject:
@@ -1192,6 +1195,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: 2
+  spawnCoin: {fileID: 2147483096}
+  coinPlayer1: {fileID: 294773581}
+  coinPlayer2: {fileID: 939640932}
   gameManager: {fileID: 1880090344}
 --- !u!1 &812439851
 GameObject:
@@ -1397,6 +1403,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: 6
+  spawnCoin: {fileID: 930846486}
+  coinPlayer1: {fileID: 294773581}
+  coinPlayer2: {fileID: 939640932}
   gameManager: {fileID: 1880090344}
 --- !u!1 &889438909
 GameObject:
@@ -1992,6 +2001,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: 0
+  spawnCoin: {fileID: 84495507}
+  coinPlayer1: {fileID: 294773581}
+  coinPlayer2: {fileID: 939640932}
   gameManager: {fileID: 1880090344}
 --- !u!1 &1393216703
 GameObject:
@@ -2132,6 +2144,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: 3
+  spawnCoin: {fileID: 1393216703}
+  coinPlayer1: {fileID: 294773581}
+  coinPlayer2: {fileID: 939640932}
   gameManager: {fileID: 1880090344}
 --- !u!1 &1499629854
 GameObject:
@@ -2367,6 +2382,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: 4
+  spawnCoin: {fileID: 992268331}
+  coinPlayer1: {fileID: 294773581}
+  coinPlayer2: {fileID: 939640932}
   gameManager: {fileID: 1880090344}
 --- !u!1 &1868464731
 GameObject:
@@ -2477,6 +2495,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: 1
+  spawnCoin: {fileID: 1499629854}
+  coinPlayer1: {fileID: 294773581}
+  coinPlayer2: {fileID: 939640932}
   gameManager: {fileID: 1880090344}
 --- !u!1 &1880090343
 GameObject:
@@ -2509,14 +2530,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinPlayer1: {fileID: 294773581}
   coinPlayer2: {fileID: 939640932}
-  spawnCoins:
-  - {fileID: 84495507}
-  - {fileID: 1499629854}
-  - {fileID: 2147483096}
-  - {fileID: 1393216703}
-  - {fileID: 992268331}
-  - {fileID: 2091844095}
-  - {fileID: 930846486}
 --- !u!4 &1880090345
 Transform:
   m_ObjectHideFlags: 0
