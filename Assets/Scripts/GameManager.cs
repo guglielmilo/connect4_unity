@@ -32,20 +32,17 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            pause = true;
             ShowPauseScreen();
         }
 
         if (IsGameActive())
         {
-            if(PlayerTurn() == '2') // opponent turn
-            {
-                logGameText.text = "Red's turn";
-            }
-            else
-            {
-                logGameText.text = "Yellow's turn";
-            }
+            logGameText.color = Color.black;
+            logGameText.text = PlayerTurn() == '1' ? "Yellow's turn" : "Red's turn";
+        }
+        else
+        {
+            logGameText.text = "";
         }
     }
 
@@ -96,26 +93,47 @@ public class GameManager : MonoBehaviour
         if (state.Done)
         {
             Debug.Log("board done, winner:" + Player.playerToString(state.PlayerWin));
+            UpdateScores();
             ShowWinScreen();
-            state = null;
+        }
+    }
+
+    private void UpdateScores()
+    {
+        if (state.PlayerWin == '1')
+        {
+            player1score++;
+            logGameText.text = "Red wins";
+            logGameText.color = Color.red;
+        }
+        else if (state.PlayerWin == '2')
+        {
+            player2score++;
+            logGameText.text = "Yellow wins";
+            logGameText.color = Color.yellow;
+        }
+        else
+        {
+            logGameText.text = "Draw";
+            logGameText.color = Color.black;
         }
     }
 
     private void ShowWinScreen()
     {
+        pause = true;
+
         Transform playerWonTextTransform = winCanvas.transform.Find("PlayerWonText");
         Text playerWonText = playerWonTextTransform.GetComponent<Text>();
 
         if (state.PlayerWin == '1')
         {
-            player1score++;
-            playerWonText.text = "Player 1 Won";
+            playerWonText.text = "Red wins";
             playerWonText.color = Color.red;
         }
         else if (state.PlayerWin == '2')
         {
-            player2score++;
-            playerWonText.text = "Player 2 Won";
+            playerWonText.text = "Yellow wins";
             playerWonText.color = Color.yellow;
         }
         else
@@ -137,6 +155,8 @@ public class GameManager : MonoBehaviour
 
     private void ShowPauseScreen()
     {
+        pause = true;
+
         Transform player1ScoreTextTransform = pauseCanvas.transform.Find("Player1ScoreText");
         Text player1ScoreText = player1ScoreTextTransform.GetComponent<Text>();
         player1ScoreText.text = player1score.ToString();
@@ -172,8 +192,6 @@ public class GameManager : MonoBehaviour
         mainMenuCanvas.SetActive(true);
         winCanvas.SetActive(false);
         pauseCanvas.SetActive(false);
-
-        logGameText.text = "";
     }
 
     private void ClearCoins()
