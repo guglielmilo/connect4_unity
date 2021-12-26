@@ -19,18 +19,13 @@ public class InputCol : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log("InputCol:" + col + " canSpawn:" + canSpawn);
-        if (gameManager.IsColValid(col))
+        if (gameManager.IsGameActive() && gameManager.IsColValid(col))
         {
             if (canAddSpawn)
             {
                 StartCoroutine(AddSpawn());
                 gameManager.SelectCol(col);
             }
-        }
-        else
-        {
-            Debug.LogWarning("InputCol:" + col + " invalid");
         }
     }
  

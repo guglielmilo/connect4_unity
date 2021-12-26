@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     private int player1score = 0;
     private int player2score = 0;
 
+    public GameObject pauseCanvas;
+    private bool pause = false;
+
     private State state;
 
     // Start is called before the first frame update
@@ -25,13 +28,23 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pause = true;
+            ShowPauseScreen();
+        }
     }
 
     public void Start2PlayersGame()
     {
         state = new State('1');
+        pause = false;
         mainMenuCanvas.SetActive(false);
+    }
+
+    public bool IsGameActive()
+    {
+        return state != null && !pause;
     }
 
     public bool IsColValid(int col)
@@ -108,10 +121,30 @@ public class GameManager : MonoBehaviour
         winCanvas.SetActive(true);
     }
 
+    private void ShowPauseScreen()
+    {
+        Transform player1ScoreTextTransform = pauseCanvas.transform.Find("Player1ScoreText");
+        Text player1ScoreText = player1ScoreTextTransform.GetComponent<Text>();
+        player1ScoreText.text = player1score.ToString();
+        
+        Transform player2ScoreTextTransform = pauseCanvas.transform.Find("Player2ScoreText");
+        Text player2ScoreText = player2ScoreTextTransform.GetComponent<Text>();
+        player2ScoreText.text = player2score.ToString();
+
+        pauseCanvas.SetActive(true);
+    }
+
+    public void Continue()
+    {
+        pause = false;
+        pauseCanvas.SetActive(false);
+    }
+
     public void Restart()
     {
         ClearCoins();
         winCanvas.SetActive(false);
+        pauseCanvas.SetActive(false);
         Start2PlayersGame(); 
     }
 
@@ -122,6 +155,7 @@ public class GameManager : MonoBehaviour
         player2score = 0;
         mainMenuCanvas.SetActive(true);
         winCanvas.SetActive(false);
+        pauseCanvas.SetActive(false);
     }
 
     private void ClearCoins()
