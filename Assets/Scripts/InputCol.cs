@@ -46,7 +46,8 @@ public class InputCol : MonoBehaviour
     {
         canSpawn = false;
         spawnNumber--;
-        Instantiate(GetCoinPlayer(), spawnCoin.transform.position, Quaternion.Euler(-90, 0, 0));
+        GameObject coinPlayer = Instantiate(GetCoinPlayer(), spawnCoin.transform.position, Quaternion.Euler(-90, 0, 0)) as GameObject;
+        coinPlayer.gameObject.tag = "coins";
         yield return new WaitForSeconds((float)0.5);
         canSpawn  = true;
     }

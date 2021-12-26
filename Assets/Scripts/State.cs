@@ -4,9 +4,9 @@ using static Player;
 
 public class State
 {
-    public  bool  done = false;
-    public  char  playerWin = Player.P0;
-    public  char  playerTurn;
+    private  bool  done = false;
+    private  char  playerWin = Player.P0;
+    private  char  playerTurn;
 
     private Board board = new Board();
 

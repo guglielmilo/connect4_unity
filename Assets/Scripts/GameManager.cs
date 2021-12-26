@@ -8,18 +8,18 @@ public class GameManager : MonoBehaviour
     public GameObject coinPlayer1;
     public GameObject coinPlayer2;
     
+    public GameObject mainMenuCanvas;
+
     public GameObject winCanvas;
     private int player1score = 0;
     private int player2score = 0;
 
-    private State state = new State('1');
+    private State state;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Start");
-        Debug.Log("state:" + state);
-        winCanvas.SetActive(false);
+        ShowMainMenu();
     }
 
     // Update is called once per frame
@@ -28,18 +28,38 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void Start2PlayersGame()
+    {
+        state = new State('1');
+        mainMenuCanvas.SetActive(false);
+    }
+
     public bool IsColValid(int col)
     {
+        if (state == null)
+        {
+            return false;
+        }
         return state.isColValid(col);
     }
 
     public char PlayerTurn()
     {
+        if (state == null)
+        {
+            return '0';
+        }
         return state.PlayerTurn;
     }
 
     public void SelectCol(int col)
     {
+        if (state == null)
+        {
+            Debug.Log("selectCol: state is null");
+            return;
+        }
+
         Debug.Log("playerTurn:" + state.PlayerTurn + " col:" + col);
 
         state.addPosition(col);
@@ -50,6 +70,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("board done, winner:" + Player.playerToString(state.PlayerWin));
             ShowWinScreen();
+            state = null;
         }
     }
 
@@ -85,6 +106,30 @@ public class GameManager : MonoBehaviour
         player2ScoreText.text = player2score.ToString();
 
         winCanvas.SetActive(true);
+    }
+
+    public void Restart()
+    {
+        ClearCoins();
+        winCanvas.SetActive(false);
+        Start2PlayersGame(); 
+    }
+
+    public void ShowMainMenu()
+    {
+        ClearCoins();
+        player1score = 0;
+        player2score = 0;
+        mainMenuCanvas.SetActive(true);
+        winCanvas.SetActive(false);
+    }
+
+    private void ClearCoins()
+    {
+        foreach(GameObject playerCoin in GameObject.FindGameObjectsWithTag("coins"))
+        {
+            Destroy(playerCoin);
+        }
     }
 
 }
