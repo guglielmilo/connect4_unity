@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public GameObject pauseCanvas;
     private bool pause = false;
 
+    public Text logGameText;
+
     private State state;
 
     // Start is called before the first frame update
@@ -32,6 +34,18 @@ public class GameManager : MonoBehaviour
         {
             pause = true;
             ShowPauseScreen();
+        }
+
+        if (IsGameActive())
+        {
+            if(PlayerTurn() == '2') // opponent turn
+            {
+                logGameText.text = "Red's turn";
+            }
+            else
+            {
+                logGameText.text = "Yellow's turn";
+            }
         }
     }
 
@@ -151,11 +165,15 @@ public class GameManager : MonoBehaviour
     public void ShowMainMenu()
     {
         ClearCoins();
+
         player1score = 0;
         player2score = 0;
+
         mainMenuCanvas.SetActive(true);
         winCanvas.SetActive(false);
         pauseCanvas.SetActive(false);
+
+        logGameText.text = "";
     }
 
     private void ClearCoins()
