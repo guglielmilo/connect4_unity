@@ -44,12 +44,15 @@ public class State
     {
         board[board.getTopRow(col), col] = playerTurn;
         bool isDone = board.isDone(playerTurn);
-        playerTurn = getOpponent(playerTurn);
         if (!isDone)
         {
             if (board.isFull())
             {
                 done = true;
+            }
+            else
+            {
+                playerTurn = getOpponent(playerTurn);
             }
         }
         else

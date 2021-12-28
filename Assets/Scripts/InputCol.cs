@@ -15,23 +15,25 @@ public class InputCol : MonoBehaviour
     private bool canSpawn = true;
     private bool canAddSpawn = true;
 
-    private int spawnNumber = 0;
+    private Queue<GameObject> spawnCoinQueue = new Queue<GameObject>();
 
-    void OnMouseDown()
+    public void OnMouseDown()
     {
         if (gameManager.IsGameActive() && gameManager.IsColValid(col))
         {
             if (canAddSpawn)
             {
-                StartCoroutine(AddSpawn());
+                GameObject coinPlayer = GetCoinPlayer();
+                StartCoroutine(AddSpawn(coinPlayer));
                 gameManager.SelectCol(col);
+                
             }
         }
     }
  
     void Update()
     {
-       if (canSpawn && spawnNumber > 0)
+       if (canSpawn && spawnCoinQueue.Count > 0)
        {
            StartCoroutine(SpawnCoin());
        }
@@ -40,17 +42,16 @@ public class InputCol : MonoBehaviour
     public IEnumerator SpawnCoin()
     {
         canSpawn = false;
-        spawnNumber--;
-        GameObject coinPlayer = Instantiate(GetCoinPlayer(), spawnCoin.transform.position, Quaternion.Euler(-90, 0, 0)) as GameObject;
+        GameObject coinPlayer = Instantiate(spawnCoinQueue.Dequeue(), spawnCoin.transform.position, Quaternion.Euler(-90, 0, 0)) as GameObject;
         coinPlayer.gameObject.tag = "coins";
         yield return new WaitForSeconds((float)0.5);
         canSpawn  = true;
     }
 
-    public IEnumerator AddSpawn()
+    public IEnumerator AddSpawn(GameObject coinPlayer)
     {
         canAddSpawn = false;
-        spawnNumber++;
+        spawnCoinQueue.Enqueue(coinPlayer);
         yield return new WaitForSeconds((float)0.33);
         canAddSpawn  = true;
 

@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         if (IsGameActive())
         {
             logGameText.color = Color.black;
-            logGameText.text = PlayerTurn() == '1' ? "Yellow's turn" : "Red's turn";
+            logGameText.text = PlayerTurn() == '1' ? "Red's turn" : "Yellow's turn";
         }
         else
         {
