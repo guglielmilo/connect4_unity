@@ -7,8 +7,13 @@ public class GameManager : MonoBehaviour
 {
     public GameObject coinPlayer1;
     public GameObject coinPlayer2;
+
+    public InputCol[] inputCols;
     
     public GameObject mainMenuCanvas;
+    private bool computer;
+    private char computerPlayer = '1';
+    private bool computerPending = false;
 
     public GameObject winCanvas;
     private int player1score = 0;
@@ -35,10 +40,14 @@ public class GameManager : MonoBehaviour
             ShowPauseScreen();
         }
 
+        logGameText.color = Color.black;
         if (IsGameActive())
         {
-            logGameText.color = Color.black;
             logGameText.text = PlayerTurn() == '1' ? "Red's turn" : "Yellow's turn";
+        }
+        else if (computerPending)
+        {
+            logGameText.text = "Computer...";
         }
         else
         {
@@ -46,8 +55,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void StartGame()
+    {
+        if (computer)
+        {
+            Start1PlayerGame();
+        }
+        else
+        {
+            Start2PlayersGame();
+        }
+    }
+
+    public void Start1PlayerGame()
+    {
+        computer = true;
+        computerPending = false;
+        state = new State('1');
+        pause = false;
+        mainMenuCanvas.SetActive(false);
+        StartCoroutine(ComputerTurn());
+    }
+
     public void Start2PlayersGame()
     {
+        computer = false;
+        computerPending = false;
         state = new State('1');
         pause = false;
         mainMenuCanvas.SetActive(false);
@@ -55,7 +88,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsGameActive()
     {
-        return state != null && !pause;
+        return state != null && !pause && !computerPending;
     }
 
     public bool IsColValid(int col)
@@ -74,6 +107,27 @@ public class GameManager : MonoBehaviour
             return '0';
         }
         return state.PlayerTurn;
+    }
+
+    private IEnumerator ComputerTurn()
+    {
+
+        computerPending = true;
+
+        int col;
+        do // simulate computer
+        {
+            col = UnityEngine.Random.Range(0, 6);
+        }
+        while(!IsColValid(col));
+
+        Debug.Log("computerTurn: playerTurn:" + state.PlayerTurn + " col:" + col);
+    
+        yield return new WaitForSeconds(0.5f);
+
+        computerPending = false;
+
+        inputCols[col].AddComputerSpawn(state.PlayerTurn);
     }
 
     public void SelectCol(int col)
@@ -95,6 +149,13 @@ public class GameManager : MonoBehaviour
             Debug.Log("board done, winner:" + Player.playerToString(state.PlayerWin));
             UpdateScores();
             ShowWinScreen();
+        }
+        else
+        {
+            if (computer && computerPlayer == state.PlayerTurn)
+            {
+                StartCoroutine(ComputerTurn());
+            }
         }
     }
 
@@ -179,7 +240,7 @@ public class GameManager : MonoBehaviour
         ClearCoins();
         winCanvas.SetActive(false);
         pauseCanvas.SetActive(false);
-        Start2PlayersGame(); 
+        StartGame();
     }
 
     public void ShowMainMenu()

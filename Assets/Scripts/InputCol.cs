@@ -17,7 +17,7 @@ public class InputCol : MonoBehaviour
 
     private Queue<GameObject> spawnCoinQueue = new Queue<GameObject>();
 
-    public void OnMouseDown()
+    void OnMouseDown()
     {
         if (gameManager.IsGameActive() && gameManager.IsColValid(col))
         {
@@ -37,6 +37,12 @@ public class InputCol : MonoBehaviour
        {
            StartCoroutine(SpawnCoin());
        }
+    }
+
+    public void AddComputerSpawn(char playerTurn)
+    {
+        StartCoroutine(AddSpawn(playerTurn == '1' ? coinPlayer1 : coinPlayer2));
+        gameManager.SelectCol(col);
     }
 
     public IEnumerator SpawnCoin()
