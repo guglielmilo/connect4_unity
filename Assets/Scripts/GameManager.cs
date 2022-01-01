@@ -114,13 +114,7 @@ public class GameManager : MonoBehaviour
 
         computerPending = true;
 
-        int col;
-        do // simulate computer
-        {
-            col = UnityEngine.Random.Range(0, 6);
-        }
-        while(!IsColValid(col));
-
+        int col = Computer.getCol(state, 1);
         Debug.Log("computerTurn: playerTurn:" + state.PlayerTurn + " col:" + col);
     
         yield return new WaitForSeconds(0.5f);
