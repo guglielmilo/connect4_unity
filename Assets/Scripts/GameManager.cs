@@ -249,6 +249,11 @@ public class GameManager : MonoBehaviour
         pauseCanvas.SetActive(false);
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
     private void ClearCoins()
     {
         foreach(GameObject playerCoin in GameObject.FindGameObjectsWithTag("coins"))
