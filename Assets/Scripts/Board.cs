@@ -1,14 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Board
+public class Board : ICloneable
 {
     private const int Width = 7;
     private const int Height = 6;
 
     private const char Empty = ' ';
 
-    char[,] arr = new char[Height, Width];
+    private char[,] arr = new char[Height, Width];
 
     public Board()
     {
@@ -19,6 +20,16 @@ public class Board
                 arr[row, col] = Empty;
             }
         }
+    }
+    
+    public Board(Board board)
+    {
+        arr = board.arr.Clone() as char[,];
+    }
+
+    public object Clone()
+    {
+        return new Board(this);
     }
 
    public char this[int row, int col]
