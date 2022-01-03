@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
 
         computerPending = true;
 
-        int col = Computer.getCol(state, 1);
+        int col = Computer.getCol(state, 3);
         Debug.Log("computerTurn: playerTurn:" + state.PlayerTurn + " col:" + col);
     
         yield return new WaitForSeconds(0.5f);
