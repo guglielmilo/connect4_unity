@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 public static class Computer
 {
@@ -76,15 +78,18 @@ public static class Computer
         }
     }
 
-    public static int getCol(State state, int recursionLevel)
+    public static (int, int) getCol(State state, int recursionLevel)
     {
+        Stopwatch timer = new Stopwatch();
+        timer.Start();
+
         State computerState = state.Clone() as State;
         Scores scores = getScores(computerState, computerState.PlayerTurn, recursionLevel);
         int col = scores.getBestCol();
 
-        // @todo: add chrono
+        timer.Stop();
 
-        return col;
+        return (col,timer.Elapsed.Milliseconds);
     }
 
     private static Scores getScores(State state, char player, int recursionLevel)
