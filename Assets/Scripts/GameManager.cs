@@ -15,6 +15,14 @@ public class GameManager : MonoBehaviour
     private char computerPlayer = '1';
     private bool computerPending = false;
 
+    public GameObject computerCanvas;
+    private const int computerLevelMin = 3;
+    private const int computerLevelMax = 8;
+    private int computerLevel = computerLevelMin;
+    public Button computerLevelMinusButton;
+    public Button computerLevelPlusButton;
+    public Text computerLevelText;
+
     public GameObject winCanvas;
     private int player1score = 0;
     private int player2score = 0;
@@ -53,6 +61,11 @@ public class GameManager : MonoBehaviour
         {
             logGameText.text = "";
         }
+
+        if (computerCanvas.activeSelf)
+        {
+            computerLevelText.text = computerLevel.ToString();
+        }
     }
 
     private void StartGame()
@@ -73,8 +86,30 @@ public class GameManager : MonoBehaviour
         computerPending = false;
         state = new State('1');
         pause = false;
-        mainMenuCanvas.SetActive(false);
+        computerCanvas.SetActive(false);
         StartCoroutine(ComputerTurn());
+    }
+
+    public void ShowPlayer1Menu()
+    {
+        mainMenuCanvas.SetActive(false);
+        computerCanvas.SetActive(true);
+    }
+
+    public void PlusComputerLevel()
+    {
+        if (computerLevel < computerLevelMax)
+        {
+            computerLevel += 1;
+        }
+    }
+
+    public void MinusComputerLevel()
+    {
+        if (computerLevel > computerLevelMin)
+        {
+            computerLevel -= 1;
+        }
     }
 
     public void Start2PlayersGame()
@@ -114,7 +149,7 @@ public class GameManager : MonoBehaviour
 
         computerPending = true;
 
-        (int col, int timeMs) = Computer.getCol(state, 5);
+        (int col, int timeMs) = Computer.getCol(state, 6);
         Debug.Log("computerTurn: playerTurn:" + state.PlayerTurn + " col:" + col + " timeMs=" + timeMs);
     
         yield return new WaitForSeconds(0.5f);
