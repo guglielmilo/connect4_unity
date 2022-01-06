@@ -89,7 +89,7 @@ public static class Computer
 
         timer.Stop();
 
-        return (col,timer.Elapsed.Milliseconds);
+        return (col,timer.Elapsed.Seconds * 1000 + timer.Elapsed.Milliseconds);
     }
 
     private static Scores getScores(State state, char player, int recursionLevel)
