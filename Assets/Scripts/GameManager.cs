@@ -9,11 +9,12 @@ public class GameManager : MonoBehaviour
     public GameObject coinPlayer2;
 
     public InputCol[] inputCols;
-    
+
     public GameObject mainMenuCanvas;
     private bool computer;
     private char computerPlayer = '1';
     private bool computerPending = false;
+    private int computerMs = 0;
 
     public GameObject computerCanvas;
     private const int computerLevelMin = 3;
@@ -48,18 +49,19 @@ public class GameManager : MonoBehaviour
             ShowPauseScreen();
         }
 
+        logGameText.text = "";
         logGameText.color = Color.black;
         if (IsGameActive())
         {
-            logGameText.text = PlayerTurn() == '1' ? "Red's turn" : "Yellow's turn";
+            logGameText.text += PlayerTurn() == '1' ? "Red's turn" : "Yellow's turn";
+            if (computerMs > 0)
+            {
+                logGameText.text += " (Computer took " + computerMs + "ms)";
+            }
         }
         else if (computerPending)
         {
             logGameText.text = "Computer...";
-        }
-        else
-        {
-            logGameText.text = "";
         }
 
         if (computerCanvas.activeSelf)
@@ -150,8 +152,9 @@ public class GameManager : MonoBehaviour
         computerPending = true;
 
         (int col, int timeMs) = Computer.getCol(state, 6);
+        computerMs = timeMs;
         Debug.Log("computerTurn: playerTurn:" + state.PlayerTurn + " col:" + col + " timeMs=" + timeMs);
-    
+
         yield return new WaitForSeconds(0.5f);
 
         computerPending = false;
@@ -235,7 +238,7 @@ public class GameManager : MonoBehaviour
         Transform player1ScoreTextTransform = winCanvas.transform.Find("Player1ScoreText");
         Text player1ScoreText = player1ScoreTextTransform.GetComponent<Text>();
         player1ScoreText.text = player1score.ToString();
-        
+
         Transform player2ScoreTextTransform = winCanvas.transform.Find("Player2ScoreText");
         Text player2ScoreText = player2ScoreTextTransform.GetComponent<Text>();
         player2ScoreText.text = player2score.ToString();
@@ -250,7 +253,7 @@ public class GameManager : MonoBehaviour
         Transform player1ScoreTextTransform = pauseCanvas.transform.Find("Player1ScoreText");
         Text player1ScoreText = player1ScoreTextTransform.GetComponent<Text>();
         player1ScoreText.text = player1score.ToString();
-        
+
         Transform player2ScoreTextTransform = pauseCanvas.transform.Find("Player2ScoreText");
         Text player2ScoreText = player2ScoreTextTransform.GetComponent<Text>();
         player2ScoreText.text = player2score.ToString();
