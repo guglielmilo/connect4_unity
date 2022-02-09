@@ -44,9 +44,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && state != null && !state.Done)
         {
-            ShowPauseScreen();
+            if (pause)
+            {
+                Continue();
+            }
+            else
+            {
+                ShowPauseScreen();
+            }
         }
 
         logGameText.text = "";
