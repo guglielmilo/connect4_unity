@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     public Text logGameText;
 
-    private State state;
+    private State state = null;
 
     // Start is called before the first frame update
     void Start()
@@ -60,15 +60,18 @@ public class GameManager : MonoBehaviour
         logGameText.color = Color.black;
         if (IsGameActive())
         {
-            logGameText.text += PlayerTurn() == '1' ? "Red's turn" : "Yellow's turn";
-            if (computerMs > 0)
+            if (computerPending)
             {
-                logGameText.text += " (Computer took " + computerMs + "ms)";
+                logGameText.text = "Computer...";
             }
-        }
-        else if (computerPending)
-        {
-            logGameText.text = "Computer...";
+            else
+            {
+                logGameText.text += PlayerTurn() == '1' ? "Red's turn" : "Yellow's turn";
+                if (computerMs > 0)
+                {
+                    logGameText.text += " (Computer took " + computerMs + "ms)";
+                }
+            }
         }
 
         if (computerCanvas.activeSelf)
@@ -130,9 +133,14 @@ public class GameManager : MonoBehaviour
         mainMenuCanvas.SetActive(false);
     }
 
+    public bool IsComputerRunning()
+    {
+        return computerPending;
+    }
+
     public bool IsGameActive()
     {
-        return state != null && !pause && !computerPending;
+        return state != null && !pause;
     }
 
     public bool IsColValid(int col)
@@ -276,15 +284,17 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        ClearCoins();
+        ClearGame();
+
         winCanvas.SetActive(false);
         pauseCanvas.SetActive(false);
+
         StartGame();
     }
 
     public void ShowMainMenu()
     {
-        ClearCoins();
+        ClearGame();
 
         player1score = 0;
         player2score = 0;
@@ -299,12 +309,14 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    private void ClearCoins()
+    private void ClearGame()
     {
         foreach(GameObject playerCoin in GameObject.FindGameObjectsWithTag("coins"))
         {
             Destroy(playerCoin);
         }
+
+        state = null;
     }
 
 }

@@ -11,7 +11,7 @@ public class InputCol : MonoBehaviour
     public GameObject coinPlayer2;
 
     public GameManager gameManager;
-    
+
     private bool canSpawn = true;
     private bool canAddSpawn = true;
 
@@ -19,18 +19,18 @@ public class InputCol : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (gameManager.IsGameActive() && gameManager.IsColValid(col))
+        if (gameManager.IsGameActive() && !gameManager.IsComputerRunning() && gameManager.IsColValid(col))
         {
             if (canAddSpawn)
             {
                 GameObject coinPlayer = GetCoinPlayer();
                 StartCoroutine(AddSpawn(coinPlayer));
                 gameManager.SelectCol(col);
-                
+
             }
         }
     }
- 
+
     void Update()
     {
        if (canSpawn && spawnCoinQueue.Count > 0)
@@ -62,7 +62,7 @@ public class InputCol : MonoBehaviour
         canAddSpawn  = true;
 
     }
-    
+
     private GameObject GetCoinPlayer()
     {
         return gameManager.PlayerTurn() == '1' ? coinPlayer1 : coinPlayer2;
