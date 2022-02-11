@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 public static class Computer
 {
@@ -84,12 +86,30 @@ public static class Computer
         timer.Start();
 
         State computerState = state.Clone() as State;
-        Scores scores = getScores(computerState, computerState.PlayerTurn, recursionLevel);
+        Scores scores = getScoresAsync(computerState, computerState.PlayerTurn, recursionLevel);
         int col = scores.getBestCol();
 
         timer.Stop();
 
         return (col,timer.Elapsed.Seconds * 1000 + timer.Elapsed.Milliseconds);
+    }
+
+    private static Scores getScoresAsync(State state, char player, int recursionLevel)
+    {
+        Task<int>[] tasks = new Task<int>[7];
+        for (int col=0; col < Width; ++col)
+        {
+            int index = col;
+            tasks[col] = Task<int>.Run(() => { return getScoreColRec(state, index, player, recursionLevel); });
+        }
+
+        Scores scores = new Scores(0);
+        for (int col=0; col < Width; ++col)
+        {
+            scores[col] = tasks[col].Result;
+        }
+
+        return scores;
     }
 
     private static Scores getScores(State state, char player, int recursionLevel)
