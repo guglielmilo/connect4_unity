@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour
     private int computerMs = 0;
 
     public GameObject computerCanvas;
-    private const int computerLevelMin = 3;
-    private const int computerLevelMax = 8;
+    private const int computerLevelMin = 1;
+    private const int computerLevelMax = 5;
     private int computerLevel = computerLevelMin;
     public Button computerLevelMinusButton;
     public Button computerLevelPlusButton;
@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseCanvas;
     private bool pause = false;
 
+    public GameObject LogCanvas;
     public Text logGameText;
 
     private State state = null;
@@ -56,10 +57,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        logGameText.text = "";
-        logGameText.color = Color.black;
         if (IsGameActive())
         {
+            logGameText.text= "";
             if (computerPending)
             {
                 logGameText.text = "Computer...";
@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
                     logGameText.text += " (Computer took " + computerMs + "ms)";
                 }
             }
+            LogCanvas.SetActive(true);
+        }
+        else
+        {
+            LogCanvas.SetActive(false);
         }
 
         if (computerCanvas.activeSelf)
@@ -166,7 +171,7 @@ public class GameManager : MonoBehaviour
 
         computerPending = true;
 
-        (int col, int timeMs) = Computer.getCol(state, 6);
+        (int col, int timeMs) = Computer.getCol(state, 1 + computerLevel);
         computerMs = timeMs;
         Debug.Log("computerTurn: playerTurn:" + state.PlayerTurn + " col:" + col + " timeMs=" + timeMs);
 
@@ -211,19 +216,10 @@ public class GameManager : MonoBehaviour
         if (state.PlayerWin == '1')
         {
             player1score++;
-            logGameText.text = "Red wins";
-            logGameText.color = Color.red;
         }
         else if (state.PlayerWin == '2')
         {
             player2score++;
-            logGameText.text = "Yellow wins";
-            logGameText.color = Color.yellow;
-        }
-        else
-        {
-            logGameText.text = "Draw";
-            logGameText.color = Color.black;
         }
     }
 
