@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 logGameText.text += PlayerTurn() == '1' ? "Red's turn" : "Yellow's turn";
-                if (computerMs > 0)
+                if (computer)
                 {
                     logGameText.text += " (Computer took " + computerMs + "ms)";
                 }
